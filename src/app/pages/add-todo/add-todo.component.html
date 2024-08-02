@@ -1,0 +1,40 @@
+<div class="add-todo-container">
+  <h2>Add TODO</h2>
+  <form [formGroup]="todoForm" (ngSubmit)="onSubmit()">
+    <mat-form-field appearance="fill">
+      <mat-label>Title</mat-label>
+      <input matInput formControlName="title" />
+      <mat-error *ngIf="todoForm.get('title')?.hasError('required') && todoForm.get('title')?.touched">
+        Title is required
+      </mat-error>
+      <mat-error *ngIf="todoForm.get('title')?.hasError('maxLength')">
+        Maximum length is 100 characters
+      </mat-error>
+    </mat-form-field>
+
+    <mat-form-field appearance="fill">
+      <mat-label>Expiration Date</mat-label>
+      <input matInput [matDatepicker]="picker" formControlName="expirationDate" [min]="minDate" />
+      <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+      <mat-datepicker #picker></mat-datepicker>
+      <mat-error *ngIf="todoForm.hasError('futureDate') && todoForm.get('expirationDate')?.touched">
+        Expiration date/time cannot be in the past
+      </mat-error>
+    </mat-form-field>
+
+    <mat-form-field appearance="fill">
+      <mat-label>Expiration Time</mat-label>
+      <input matInput [format]="24" [ngxTimepicker]="timepicker" formControlName="expirationTime" placeholder="Expiration Time" />
+      <ngx-material-timepicker #timepicker></ngx-material-timepicker>
+    </mat-form-field>
+
+    <div class="button-container">
+      <button mat-raised-button color="primary" type="submit" [disabled]="todoForm.invalid">
+        Create
+      </button>
+      <button mat-button type="button" (click)="router.navigate(['/list'])">
+        Back
+      </button>
+    </div>
+  </form>
+</div>
