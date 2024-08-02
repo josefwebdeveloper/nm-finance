@@ -1,0 +1,44 @@
+.todo-list-container {
+  padding: 20px;
+  width: 70%;
+  margin: auto;
+
+  .todo-card {
+    margin-bottom: 20px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  }
+
+  .todo-table {
+    width: 100%;
+    th {
+      font-weight: bold;
+      text-align: left;
+    }
+    td {
+      padding: 8px 16px;
+    }
+
+    mat-checkbox {
+      margin-left: 8px;
+    }
+
+    .red-text {
+      color: #f44336;
+      font-weight: bold;
+    }
+
+    mat-icon {
+      cursor: pointer;
+    }
+  }
+
+  .mat-card-title {
+    font-size: 1.5em;
+    font-weight: bold;
+    padding-bottom: 16px;
+  }
+
+  mat-divider {
+    margin-bottom: 16px;
+  }
+}

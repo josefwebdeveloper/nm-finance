@@ -1,1 +1,101 @@
-<p>todo-list works!</p>
+<div class="todo-list-container">
+  <!-- Today's TODOs Section -->
+  <mat-card class="todo-card" *ngIf="todayTodos.length > 0">
+    <mat-card-title>Today TODO's</mat-card-title>
+    <mat-divider></mat-divider>
+    <table mat-table [dataSource]="todayTodos" class="todo-table" matSort>
+
+      <!-- Title Column -->
+      <ng-container matColumnDef="title">
+        <th mat-header-cell *matHeaderCellDef> Title </th>
+        <td mat-cell *matCellDef="let todo">
+          {{ todo.title }}
+        </td>
+      </ng-container>
+
+      <!-- Created At Column -->
+      <ng-container matColumnDef="createdAt">
+        <th mat-header-cell *matHeaderCellDef> Created At </th>
+        <td mat-cell *matCellDef="let todo"> {{ todo.createdAt | date: 'MMM d, y' }} </td>
+      </ng-container>
+
+      <!-- Time Left Column -->
+      <ng-container matColumnDef="timeLeft">
+        <th mat-header-cell *matHeaderCellDef> Time left </th>
+        <td mat-cell *matCellDef="let todo">
+          <span [ngClass]="{'red-text': timeLeftMap.get(todo) === 'Expired' || (timeLeftMap.get(todo) || '') < '1h 0m 0s'}">
+            {{ timeLeftMap.get(todo) || 'Calculating...' }}
+          </span>
+        </td>
+      </ng-container>
+
+      <!-- Actions Column -->
+      <ng-container matColumnDef="actions">
+        <th mat-header-cell *matHeaderCellDef> Actions </th>
+        <td mat-cell *matCellDef="let todo">
+          <!-- Favorite Icon -->
+          <button mat-icon-button (click)="toggleFavorite(todo)">
+            <mat-icon [color]="todo.favorite ? 'warn' : ''">
+              {{ todo.favorite ? 'favorite' : 'favorite_border' }}
+            </mat-icon>
+          </button>
+          <!-- Delete Icon -->
+          <button mat-icon-button (click)="removeTodo(todo)" color="warn">
+            <mat-icon>delete</mat-icon>
+          </button>
+        </td>
+      </ng-container>
+
+      <tr mat-header-row *matHeaderRowDef="['title', 'createdAt', 'timeLeft', 'actions']"></tr>
+      <tr mat-row *matRowDef="let row; columns: ['title', 'createdAt', 'timeLeft', 'actions'];"></tr>
+    </table>
+  </mat-card>
+
+  <!-- All TODOs Section -->
+  <mat-card class="todo-card" *ngIf="otherTodos.length > 0">
+    <mat-card-title>My Todo List</mat-card-title>
+    <mat-divider></mat-divider>
+    <table mat-table [dataSource]="otherTodos" class="todo-table" matSort>
+
+      <!-- Title Column -->
+      <ng-container matColumnDef="title">
+        <th mat-header-cell *matHeaderCellDef> Title </th>
+        <td mat-cell *matCellDef="let todo">
+          {{ todo.title }}
+        </td>
+      </ng-container>
+
+      <!-- Created At Column -->
+      <ng-container matColumnDef="createdAt">
+        <th mat-header-cell *matHeaderCellDef> Created At </th>
+        <td mat-cell *matCellDef="let todo"> {{ todo.createdAt | date: 'MMM d, y' }} </td>
+      </ng-container>
+
+      <!-- Expiration Column -->
+      <ng-container matColumnDef="expiration">
+        <th mat-header-cell *matHeaderCellDef> Expiration </th>
+        <td mat-cell *matCellDef="let todo"> {{ todo.expirationDate | date: 'MMM d, y' }} </td>
+      </ng-container>
+
+      <!-- Actions Column -->
+      <ng-container matColumnDef="actions">
+        <th mat-header-cell *matHeaderCellDef> Actions </th>
+        <td mat-cell *matCellDef="let todo">
+          <!-- Favorite Icon -->
+          <button mat-icon-button (click)="toggleFavorite(todo)">
+            <mat-icon [color]="todo.favorite ? 'warn' : ''">
+              {{ todo.favorite ? 'favorite' : 'favorite_border' }}
+            </mat-icon>
+          </button>
+          <!-- Delete Icon -->
+          <button mat-icon-button (click)="removeTodo(todo)" color="warn">
+            <mat-icon>delete</mat-icon>
+          </button>
+        </td>
+      </ng-container>
+
+      <tr mat-header-row *matHeaderRowDef="['title', 'createdAt', 'expiration', 'actions']"></tr>
+      <tr mat-row *matRowDef="let row; columns: ['title', 'createdAt', 'expiration', 'actions'];"></tr>
+    </table>
+  </mat-card>
+</div>
