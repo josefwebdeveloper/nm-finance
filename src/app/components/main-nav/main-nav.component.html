@@ -1,15 +1,37 @@
 <mat-sidenav-container class="sidenav-container">
-  <mat-sidenav #drawer class="sidenav" fixedInViewport
+  <mat-sidenav
+    #drawer
+    class="sidenav"
+    fixedInViewport
     [attr.role]="(isHandset$ | async) ? 'dialog' : 'navigation'"
     [mode]="(isHandset$ | async) ? 'over' : 'side'"
-    [opened]="false">
+    [opened]="false"
+  >
     @if (!(isHandset$ | async)) {
       <mat-toolbar>Menu</mat-toolbar>
     }
     <mat-nav-list>
-      <a mat-list-item routerLink="/add" routerLinkActive="active-link">ADD</a>
-      <a mat-list-item routerLink="/list" routerLinkActive="active-link">LIST</a>
-      <a mat-list-item routerLink="/favorite" routerLinkActive="active-link">FAVORITE TODO LIST</a>
+      <a
+        (click)="drawer.close()"
+        mat-list-item
+        routerLink="/add"
+        routerLinkActive="active-link"
+        >ADD</a
+      >
+      <a
+        (click)="drawer.close()"
+        mat-list-item
+        routerLink="/list"
+        routerLinkActive="active-link"
+        >LIST</a
+      >
+      <a
+        (click)="drawer.close()"
+        mat-list-item
+        routerLink="/favorite"
+        routerLinkActive="active-link"
+        >FAVORITE TODO LIST</a
+      >
     </mat-nav-list>
   </mat-sidenav>
   <mat-sidenav-content>
@@ -19,7 +41,8 @@
           type="button"
           aria-label="Toggle sidenav"
           mat-icon-button
-          (click)="drawer.toggle()">
+          (click)="drawer.toggle()"
+        >
           <mat-icon aria-label="Side nav toggle icon">menu</mat-icon>
         </button>
         <span>My TODO List</span>
@@ -29,9 +52,15 @@
           <span>My TODO List</span>
           <span class="spacer"></span>
           <nav>
-            <a mat-button routerLink="/add" routerLinkActive="active-link">ADD</a>
-            <a mat-button routerLink="/list" routerLinkActive="active-link">LIST</a>
-            <a mat-button routerLink="/favorite" routerLinkActive="active-link">FAVORITE TODO LIST</a>
+            <a mat-button routerLink="/add" routerLinkActive="active-link"
+              >ADD</a
+            >
+            <a mat-button routerLink="/list" routerLinkActive="active-link"
+              >LIST</a
+            >
+            <a mat-button routerLink="/favorite" routerLinkActive="active-link"
+              >FAVORITE TODO LIST</a
+            >
           </nav>
         </div>
       }

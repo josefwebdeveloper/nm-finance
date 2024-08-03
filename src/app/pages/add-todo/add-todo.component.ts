@@ -6,8 +6,6 @@ import {
   Validators,
 } from '@angular/forms';
 import { Router } from '@angular/router';
-import { Subject, switchMap } from 'rxjs';
-import { map } from 'rxjs/operators';
 import {
   MatError,
   MatFormField,
