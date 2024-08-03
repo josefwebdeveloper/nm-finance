@@ -18,6 +18,7 @@ import {Todo} from "../../models/todo";
 import {MatNativeDateModule} from "@angular/material/core";
 import {TodoService} from "../../services/todo.service";
 import {futureDateValidator} from "../../validators/date-time.validator";
+import {MatCard} from "@angular/material/card";
 
 @Component({
   selector: 'app-add-todo',
@@ -36,7 +37,8 @@ import {futureDateValidator} from "../../validators/date-time.validator";
     MatFormFieldModule,
     MatInputModule,
     MatNativeDateModule,
-    MatButton
+    MatButton,
+    MatCard
   ],
   templateUrl: './add-todo.component.html',
   styleUrl: './add-todo.component.scss',

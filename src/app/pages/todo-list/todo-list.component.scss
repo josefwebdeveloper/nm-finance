@@ -1,8 +1,9 @@
 .todo-list-container {
-  padding: 24px 0 0 0;
+  margin: 64px auto 0 auto;
   flex-direction: column;
 
   .todo-card {
+    //padding: 24px;
     margin-bottom: 20px;
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
     border-radius: 8px;
@@ -49,7 +50,7 @@
     }
 
     .red-text {
-      color: #f44336;
+      color: var(--active-link-color);
       font-weight: bold;
     }
 
@@ -71,9 +72,13 @@
 
 @media screen and (max-width: 768px) {
   .todo-list-container {
+    overflow-y: hidden;
     padding: 0;
-    width: 100%;
-    margin: initial;
+    width: 100vw;
+  }
+
+  mat-card-title {
+    padding: 16px;
   }
   .todo-details {
     flex-direction: column;
@@ -85,6 +90,7 @@
   }
 
   .todo-table {
+    width: 100vw;
     td {
       display: block;
       padding: 10px 0;
@@ -94,6 +100,7 @@
         width: calc(100vw - 10px);
       }
     }
+
 
     th {
       display: none;

@@ -32,7 +32,15 @@ html::before::-webkit-scrollbar {
 
 .active-link {
   color: var(--active-link-color) !important;
-    .mdc-list-item__primary-text {
-      color: var(--active-link-color) !important;
-    }
+
+  .mdc-list-item__primary-text {
+    color: var(--active-link-color) !important;
+  }
+}
+
+@media screen and (max-width: 768px) {
+  .container {
+    width: 100vw;
+    margin: 0;
+  }
 }

@@ -1,3 +1,10 @@
-.add-todo-container{
-padding: 24px 0 0 0;
+.add-todo-container {
+  padding: 24px 0 0 0;
+  flex-direction: column;
+}
+mat-card {
+  padding: 24px;
+  margin-bottom: 20px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  border-radius: 8px;
 }
