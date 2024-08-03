@@ -6,10 +6,10 @@ import {
   OnInit,
 } from '@angular/core';
 import { Todo } from '../../models/todo';
-import { Subject } from 'rxjs';
+import { Subject, of } from 'rxjs';
 import { TodoService } from '../../services/todo.service';
 import { ActivatedRoute } from '@angular/router';
-import { takeUntil } from 'rxjs/operators';
+import { takeUntil, catchError } from 'rxjs/operators';
 import { MatButton, MatIconButton } from '@angular/material/button';
 import { MatCard, MatCardTitle } from '@angular/material/card';
 import { DatePipe, NgClass } from '@angular/common';
@@ -74,6 +74,7 @@ export class TodoListComponent implements OnInit, OnDestroy {
   showFavorites: boolean = false;
   private destroy$ = new Subject<void>();
   private favoriteClicks$ = new Subject<Todo>();
+  errorMessage: string | null = null;
 
   constructor(
     private todoService: TodoService,
@@ -86,7 +87,15 @@ export class TodoListComponent implements OnInit, OnDestroy {
     // Subscribe to task updates
     this.todoService
       .getTodos()
-      .pipe(takeUntil(this.destroy$))
+      .pipe(
+        takeUntil(this.destroy$),
+        catchError((error) => {
+          console.error('Error fetching todos', error);
+          this.errorMessage =
+            'Не удалось загрузить список задач. Пожалуйста, попробуйте позже.';
+          return of([]);
+        }),
+      )
       .subscribe((todos) => {
         this.todos = todos;
         this.todayTodos = this.filterTodayTodos(todos);
@@ -96,7 +105,13 @@ export class TodoListComponent implements OnInit, OnDestroy {
       });
 
     this.favoriteClicks$
-      .pipe(takeUntil(this.destroy$))
+      .pipe(
+        takeUntil(this.destroy$),
+        catchError((error) => {
+          console.error('Error toggling favorite status', error);
+          return of(null);
+        }),
+      )
       .subscribe((todo) => this.todoService.toggleFavorite(todo));
 
     // Subscribe to route changes
@@ -109,7 +124,15 @@ export class TodoListComponent implements OnInit, OnDestroy {
   startTimer() {
     this.timerService
       .getTimeLeftObservable(this.todos)
-      .pipe(takeUntil(this.destroy$))
+      .pipe(
+        takeUntil(this.destroy$),
+        catchError((error) => {
+          console.error('Error updating time left', error);
+          this.errorMessage =
+            'Не удалось обновить время оставшееся до истечения срока задачи.';
+          return of([]);
+        }),
+      )
       .subscribe((updatedTimes) => {
         updatedTimes.forEach(({ todo, timeLeft }) => {
           this.timeLeftMap.set(todo, timeLeft);
