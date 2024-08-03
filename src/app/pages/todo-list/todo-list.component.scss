@@ -1,9 +1,10 @@
 .todo-list-container {
   margin: 64px auto 0 auto;
+  display: flex;
   flex-direction: column;
 
   .todo-card {
-    //padding: 24px;
+    padding: 24px;
     margin-bottom: 20px;
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
     border-radius: 8px;
@@ -11,46 +12,47 @@
 
   .todo-table {
     width: 100%;
+    table-layout: fixed; // Использование фиксированной раскладки таблицы
 
-    th {
-      font-weight: bold;
-      text-align: left;
-    }
-
+    th,
     td {
-      padding: 16px 8px;
-    }
-
-    .todo-title {
-      font-size: 1.2em;
-      font-weight: bold;
-      margin-bottom: 8px;
+      padding: 8px;
       white-space: nowrap;
       overflow: hidden;
       text-overflow: ellipsis;
     }
 
-    .todo-details {
+    .header-row {
+      border-bottom: 1px solid #ddd;
+      background-color: #f5f5f5;
+    }
+
+    .title-header,
+    .title-cell {
+      width: 150px; // Установка фиксированной ширины для колонки Title
+      flex-shrink: 0;
+    }
+
+    .created-at,
+    .time-left,
+    .expiration {
+      text-align: center;
+      min-width: 100px;
+    }
+
+    .actions {
       display: flex;
-      flex-wrap: wrap;
-      justify-content: space-between;
       align-items: center;
+      justify-content: flex-end;
+      flex: 1;
 
-      .created-at,
-      .expiration,
-      .time-left {
-        flex: 1 1 50%;
-        margin: 5px 0;
-      }
-
-      .actions {
-        flex: 1 1 100%;
-        text-align: right;
+      button {
+        margin-left: 8px;
       }
     }
 
     .red-text {
-      color: var(--active-link-color);
+      color: red;
       font-weight: bold;
     }
 
@@ -80,6 +82,7 @@
   mat-card-title {
     padding: 16px;
   }
+
   .todo-details {
     flex-direction: column;
     align-items: flex-start;
@@ -91,20 +94,20 @@
 
   .todo-table {
     width: 100vw;
+    table-layout: auto; // Изменение на автоматическую раскладку для мобильных устройств
+
     td {
       display: block;
       padding: 10px 0;
       border-bottom: 1px solid #eee;
 
-      .todo-title {
+      .title-cell {
         width: calc(100vw - 10px);
       }
     }
-
 
     th {
       display: none;
     }
   }
 }
-
