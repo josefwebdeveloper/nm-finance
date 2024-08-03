@@ -2,7 +2,7 @@ import { ChangeDetectionStrategy, ChangeDetectorRef, Component, OnDestroy, OnIni
 import { Todo } from "../../models/todo";
 import { Subject } from "rxjs";
 import { TodoService } from "../../services/todo.service";
-import { ActivatedRoute } from '@angular/router'; // Import ActivatedRoute
+import { ActivatedRoute } from '@angular/router';
 import { takeUntil } from "rxjs/operators";
 import { MatButton, MatIconButton } from "@angular/material/button";
 import { MatCard, MatCardTitle } from "@angular/material/card";
@@ -119,7 +119,6 @@ export class TodoListComponent implements OnInit, OnDestroy {
     return todos.filter(todo => new Date(todo.expirationDate).toDateString() !== currentDate);
   }
 
-  // Filter for favorite tasks
   filterFavoriteTodos(todos: Todo[]): Todo[] {
     return todos.filter(todo => todo.favorite);
   }
@@ -140,5 +139,11 @@ export class TodoListComponent implements OnInit, OnDestroy {
     this.destroy$.next();
     this.destroy$.complete();
   }
-}
 
+  isTimeCritical(todo: Todo): boolean {
+    const timeLeft = this.timeLeftMap.get(todo);
+    if (!timeLeft) return false;
+    const [hours, minutes, seconds] = timeLeft.split(/[hm\s]/).map(Number);
+    return hours === 0 && (minutes < 60 || (minutes === 0 && seconds <= 0));
+  }
+}
