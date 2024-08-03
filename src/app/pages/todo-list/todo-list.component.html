@@ -1,8 +1,9 @@
 <div class="todo-list-container container">
-  <mat-card class="todo-card" *ngIf="todayTodos.length > 0">
-    <mat-card-title>Today TODO's</mat-card-title>
+  <!-- Favorite Tasks -->
+  <mat-card class="todo-card" *ngIf="showFavorites && favoriteTodos.length > 0">
+    <mat-card-title>Favorite Tasks</mat-card-title>
     <mat-divider></mat-divider>
-    <table mat-table [dataSource]="todayTodos" class="todo-table" matSort>
+    <table mat-table [dataSource]="favoriteTodos" class="todo-table" matSort>
       <!-- Checkbox and Title Column -->
       <ng-container matColumnDef="mainInfo">
         <td mat-cell *matCellDef="let todo">
@@ -18,9 +19,9 @@
         <td mat-cell *matCellDef="let todo">
           <div class="details">
             <span class="created-at">{{ todo.createdAt | date: 'MMM d, y' }}</span>
-            <span class="time-left" [ngClass]="{'red-text': timeLeftMap.get(todo) === 'Expired' || (timeLeftMap.get(todo) || '') < '1h 0m 0s'}">
-              {{ timeLeftMap.get(todo) || 'Calculating...' }}
-            </span>
+            <!-- Show Time Left for Today's Tasks or Expiration for Others -->
+            <span *ngIf="todayTodos.includes(todo)" class="time-left">Time Left: {{ timeLeftMap.get(todo) }}</span>
+            <span *ngIf="!todayTodos.includes(todo)" class="expiration">Expires: {{ todo.expirationDate | date: 'MMM d, y' }}</span>
             <div class="actions">
               <button mat-icon-button (click)="toggleFavorite(todo)">
                 <mat-icon [color]="todo.favorite ? 'warn' : ''">
@@ -40,8 +41,53 @@
     </table>
   </mat-card>
 
-  <mat-card class="todo-card" *ngIf="otherTodos.length > 0">
-    <mat-card-title>My Todo List</mat-card-title>
+  <mat-card *ngIf="showFavorites && favoriteTodos.length === 0">
+    <mat-card-title>No favorite tasks found.</mat-card-title>
+  </mat-card>
+
+  <!-- Today's Tasks -->
+  <mat-card class="todo-card" *ngIf="!showFavorites && todayTodos.length > 0">
+    <mat-card-title>Today's Tasks</mat-card-title>
+    <mat-divider></mat-divider>
+    <table mat-table [dataSource]="todayTodos" class="todo-table" matSort>
+      <!-- Checkbox and Title Column -->
+      <ng-container matColumnDef="mainInfo">
+        <td mat-cell *matCellDef="let todo">
+          <div class="main-info">
+            <mat-checkbox></mat-checkbox>
+            <span class="todo-title">{{ todo.title }}</span>
+          </div>
+        </td>
+      </ng-container>
+
+      <!-- Details Column -->
+      <ng-container matColumnDef="details">
+        <td mat-cell *matCellDef="let todo">
+          <div class="details">
+            <span class="created-at">{{ todo.createdAt | date: 'MMM d, y' }}</span>
+            <span class="time-left">Time Left: {{ timeLeftMap.get(todo) }}</span>
+            <div class="actions">
+              <button mat-icon-button (click)="toggleFavorite(todo)">
+                <mat-icon [color]="todo.favorite ? 'warn' : ''">
+                  {{ todo.favorite ? 'favorite' : 'favorite_border' }}
+                </mat-icon>
+              </button>
+              <button mat-icon-button (click)="removeTodo(todo)" color="warn">
+                <mat-icon>delete</mat-icon>
+              </button>
+            </div>
+          </div>
+        </td>
+      </ng-container>
+
+      <!-- Row Definitions -->
+      <tr mat-row *matRowDef="let row; columns: ['mainInfo', 'details'];"></tr>
+    </table>
+  </mat-card>
+
+  <!-- Other Tasks -->
+  <mat-card class="todo-card" *ngIf="!showFavorites && otherTodos.length > 0">
+    <mat-card-title>Other Tasks</mat-card-title>
     <mat-divider></mat-divider>
     <table mat-table [dataSource]="otherTodos" class="todo-table" matSort>
       <!-- Checkbox and Title Column -->
@@ -77,5 +123,10 @@
       <!-- Row Definitions -->
       <tr mat-row *matRowDef="let row; columns: ['mainInfo', 'details'];"></tr>
     </table>
+  </mat-card>
+
+  <!-- No Tasks Message -->
+  <mat-card *ngIf="!showFavorites && todayTodos.length === 0 && otherTodos.length === 0">
+    <mat-card-title>No tasks available.</mat-card-title>
   </mat-card>
 </div>

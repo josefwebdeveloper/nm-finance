@@ -1,15 +1,16 @@
-import {ChangeDetectionStrategy, ChangeDetectorRef, Component, OnDestroy, OnInit} from '@angular/core';
-import {Todo} from "../../models/todo";
-import {debounceTime, Subject} from "rxjs";
-import {TodoService} from "../../services/todo.service";
-import {takeUntil} from "rxjs/operators";
-import {MatButton, MatIconButton} from "@angular/material/button";
-import {MatCard, MatCardTitle} from "@angular/material/card";
-import {DatePipe, NgClass, NgForOf, NgIf} from "@angular/common";
-import {MatList, MatListItem} from "@angular/material/list";
-import {MatLine} from "@angular/material/core";
-import {MatIcon} from "@angular/material/icon";
-import {MatDivider} from "@angular/material/divider";
+import { ChangeDetectionStrategy, ChangeDetectorRef, Component, OnDestroy, OnInit } from '@angular/core';
+import { Todo } from "../../models/todo";
+import { Subject } from "rxjs";
+import { TodoService } from "../../services/todo.service";
+import { ActivatedRoute } from '@angular/router'; // Import ActivatedRoute
+import { takeUntil } from "rxjs/operators";
+import { MatButton, MatIconButton } from "@angular/material/button";
+import { MatCard, MatCardTitle } from "@angular/material/card";
+import { DatePipe, NgClass, NgForOf, NgIf } from "@angular/common";
+import { MatList, MatListItem } from "@angular/material/list";
+import { MatLine } from "@angular/material/core";
+import { MatIcon } from "@angular/material/icon";
+import { MatDivider } from "@angular/material/divider";
 import {
   MatCell,
   MatCellDef,
@@ -19,9 +20,9 @@ import {
   MatHeaderRow, MatHeaderRowDef, MatRow, MatRowDef,
   MatTable
 } from "@angular/material/table";
-import {MatSort} from "@angular/material/sort";
-import {MatCheckbox} from "@angular/material/checkbox";
-import {TimerService} from "../../services/timer.service";
+import { MatSort } from "@angular/material/sort";
+import { MatCheckbox } from "@angular/material/checkbox";
+import { TimerService } from "../../services/timer.service";
 
 @Component({
   selector: 'app-todo-list',
@@ -54,13 +55,14 @@ import {TimerService} from "../../services/timer.service";
     NgClass
   ],
   templateUrl: './todo-list.component.html',
-  styleUrl: './todo-list.component.scss',
+  styleUrls: ['./todo-list.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class TodoListComponent implements OnInit, OnDestroy{
+export class TodoListComponent implements OnInit, OnDestroy {
   todos: Todo[] = [];
   todayTodos: Todo[] = [];
   otherTodos: Todo[] = [];
+  favoriteTodos: Todo[] = [];
   timeLeftMap: Map<Todo, string> = new Map();
   showFavorites: boolean = false;
   private destroy$ = new Subject<void>();
@@ -69,21 +71,31 @@ export class TodoListComponent implements OnInit, OnDestroy{
   constructor(
     private todoService: TodoService,
     private cdr: ChangeDetectorRef,
-    private timerService: TimerService) {}
+    private timerService: TimerService,
+    private route: ActivatedRoute
+  ) {}
 
   ngOnInit(): void {
+    // Subscribe to task updates
     this.todoService.getTodos().pipe(
       takeUntil(this.destroy$)
     ).subscribe(todos => {
       this.todos = todos;
       this.todayTodos = this.filterTodayTodos(todos);
       this.otherTodos = this.filterOtherTodos(todos);
+      this.favoriteTodos = this.filterFavoriteTodos(todos);
       this.startTimer();
     });
 
     this.favoriteClicks$.pipe(
       takeUntil(this.destroy$)
     ).subscribe(todo => this.todoService.toggleFavorite(todo));
+
+    // Subscribe to route changes
+    this.route.url.pipe(takeUntil(this.destroy$)).subscribe(url => {
+      this.showFavorites = url.some(segment => segment.path === 'favorite');
+      this.cdr.markForCheck();
+    });
   }
 
   startTimer() {
@@ -107,6 +119,11 @@ export class TodoListComponent implements OnInit, OnDestroy{
     return todos.filter(todo => new Date(todo.expirationDate).toDateString() !== currentDate);
   }
 
+  // Filter for favorite tasks
+  filterFavoriteTodos(todos: Todo[]): Todo[] {
+    return todos.filter(todo => todo.favorite);
+  }
+
   toggleFavorite(todo: Todo) {
     this.favoriteClicks$.next(todo);
   }
@@ -124,3 +141,4 @@ export class TodoListComponent implements OnInit, OnDestroy{
     this.destroy$.complete();
   }
 }
+
