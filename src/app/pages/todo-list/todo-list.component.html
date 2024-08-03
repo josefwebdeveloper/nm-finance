@@ -18,10 +18,15 @@
         <ng-container matColumnDef="details">
           <td mat-cell *matCellDef="let todo">
             <div class="details">
-              <span class="created-at">{{ todo.createdAt | date: 'MMM d, y' }}</span>
+              <span class="created-at">{{
+                todo.createdAt | date: 'MMM d, y'
+              }}</span>
               <!-- Show Time Left for Today's Tasks or Expiration for Others -->
               @if (todayTodos.includes(todo)) {
-                <span class="time-left" [ngClass]="{'red-text': isTimeCritical(todo)}">
+                <span
+                  class="time-left"
+                  [ngClass]="{ 'red-text': isTimeCritical(todo) }"
+                >
                   Time Left: {{ timeLeftMap.get(todo) }}
                 </span>
               }
@@ -44,7 +49,7 @@
           </td>
         </ng-container>
         <!-- Row Definitions -->
-        <tr mat-row *matRowDef="let row; columns: ['mainInfo', 'details'];"></tr>
+        <tr mat-row *matRowDef="let row; columns: ['mainInfo', 'details']"></tr>
       </table>
     </mat-card>
   }
@@ -74,8 +79,13 @@
         <ng-container matColumnDef="details">
           <td mat-cell *matCellDef="let todo">
             <div class="details">
-              <span class="created-at">{{ todo.createdAt | date: 'MMM d, y' }}</span>
-              <span class="time-left" [ngClass]="{'red-text': isTimeCritical(todo)}">
+              <span class="created-at">{{
+                todo.createdAt | date: 'MMM d, y'
+              }}</span>
+              <span
+                class="time-left"
+                [ngClass]="{ 'red-text': isTimeCritical(todo) }"
+              >
                 Time Left: {{ timeLeftMap.get(todo) }}
               </span>
               <div class="actions">
@@ -92,7 +102,7 @@
           </td>
         </ng-container>
         <!-- Row Definitions -->
-        <tr mat-row *matRowDef="let row; columns: ['mainInfo', 'details'];"></tr>
+        <tr mat-row *matRowDef="let row; columns: ['mainInfo', 'details']"></tr>
       </table>
     </mat-card>
   }
@@ -116,8 +126,12 @@
         <ng-container matColumnDef="details">
           <td mat-cell *matCellDef="let todo">
             <div class="details">
-              <span class="created-at">{{ todo.createdAt | date: 'MMM d, y' }}</span>
-              <span class="expiration">Expires: {{ todo.expirationDate | date: 'MMM d, y' }}</span>
+              <span class="created-at">{{
+                todo.createdAt | date: 'MMM d, y'
+              }}</span>
+              <span class="expiration"
+                >Expires: {{ todo.expirationDate | date: 'MMM d, y' }}</span
+              >
               <div class="actions">
                 <button mat-icon-button (click)="toggleFavorite(todo)">
                   <mat-icon [color]="todo.favorite ? 'warn' : ''">
@@ -132,14 +146,14 @@
           </td>
         </ng-container>
         <!-- Row Definitions -->
-        <tr mat-row *matRowDef="let row; columns: ['mainInfo', 'details'];"></tr>
+        <tr mat-row *matRowDef="let row; columns: ['mainInfo', 'details']"></tr>
       </table>
     </mat-card>
   }
 
   <!-- No Tasks Message -->
   @if (!showFavorites && todayTodos.length === 0 && otherTodos.length === 0) {
-    <mat-card  class="empty">
+    <mat-card class="empty">
       <mat-card-title>No tasks available.</mat-card-title>
     </mat-card>
   }

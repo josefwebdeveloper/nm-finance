@@ -1,27 +1,37 @@
 import { Injectable, OnDestroy } from '@angular/core';
 import { interval, Observable, Subject } from 'rxjs';
 import { map, takeUntil } from 'rxjs/operators';
-import { Todo } from "../models/todo";
+import { Todo } from '../models/todo';
 
 @Injectable({
-  providedIn: 'root'
+  providedIn: 'root',
 })
 export class TimerService implements OnDestroy {
   private destroy$ = new Subject<void>();
 
   constructor() {}
 
-  getTimeLeftObservable(todos: Todo[]): Observable<{ todo: Todo, timeLeft: string }[]> {
+  getTimeLeftObservable(
+    todos: Todo[],
+  ): Observable<{ todo: Todo; timeLeft: string }[]> {
     return interval(1000).pipe(
       takeUntil(this.destroy$),
-      map(() => todos.map(todo => ({
-        todo,
-        timeLeft: this.calculateTimeLeft(todo.expirationDate, todo.expirationTime)
-      })))
+      map(() =>
+        todos.map((todo) => ({
+          todo,
+          timeLeft: this.calculateTimeLeft(
+            todo.expirationDate,
+            todo.expirationTime,
+          ),
+        })),
+      ),
     );
   }
 
-  private calculateTimeLeft(expirationDate: string, expirationTime?: string): string {
+  private calculateTimeLeft(
+    expirationDate: string,
+    expirationTime?: string,
+  ): string {
     const expirationDateTime = new Date(expirationDate);
 
     if (expirationTime) {

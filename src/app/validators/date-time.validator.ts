@@ -1,4 +1,4 @@
-import {AbstractControl, ValidationErrors, ValidatorFn} from '@angular/forms';
+import { AbstractControl, ValidationErrors, ValidatorFn } from '@angular/forms';
 
 export function futureDateValidator(): ValidatorFn {
   return (control: AbstractControl): ValidationErrors | null => {
@@ -7,7 +7,7 @@ export function futureDateValidator(): ValidatorFn {
     const currentDateTime = new Date();
 
     if (!expirationDate) {
-      return {futureDate: 'Expiration date is required'};
+      return { futureDate: 'Expiration date is required' };
     }
 
     const expirationDateTime = new Date(expirationDate);
@@ -20,6 +20,8 @@ export function futureDateValidator(): ValidatorFn {
       expirationDateTime.setHours(23, 59, 59);
     }
 
-    return expirationDateTime.getTime() >= currentDateTime.getTime() ? null : {futureDate: 'Expiration date/time cannot be in the past'};
+    return expirationDateTime.getTime() >= currentDateTime.getTime()
+      ? null
+      : { futureDate: 'Expiration date/time cannot be in the past' };
   };
 }

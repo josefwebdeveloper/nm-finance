@@ -2,10 +2,10 @@ import { Injectable, OnDestroy } from '@angular/core';
 import { BehaviorSubject, Observable, Subject, Subscription } from 'rxjs';
 import { map, delay, takeUntil } from 'rxjs/operators';
 import { StorageMap } from '@ngx-pwa/local-storage';
-import {Todo} from "../models/todo";
+import { Todo } from '../models/todo';
 
 @Injectable({
-  providedIn: 'root'
+  providedIn: 'root',
 })
 export class TodoService implements OnDestroy {
   private todosSubject = new BehaviorSubject<Todo[]>([]);
@@ -17,11 +17,14 @@ export class TodoService implements OnDestroy {
   }
 
   private loadTodos() {
-    this.localStorage.get('todos').pipe(
-      map(todos => Array.isArray(todos) ? todos : []),
-      delay(this.delayTime),
-      takeUntil(this.unsubscribe$)
-    ).subscribe(todos => this.todosSubject.next(todos));
+    this.localStorage
+      .get('todos')
+      .pipe(
+        map((todos) => (Array.isArray(todos) ? todos : [])),
+        delay(this.delayTime),
+        takeUntil(this.unsubscribe$),
+      )
+      .subscribe((todos) => this.todosSubject.next(todos));
   }
 
   getTodos(): Observable<Todo[]> {
@@ -33,32 +36,32 @@ export class TodoService implements OnDestroy {
     const updatedTodos = [...currentTodos, todo];
     this.todosSubject.next(updatedTodos);
 
-    this.localStorage.set('todos', updatedTodos).pipe(
-      delay(this.delayTime),
-      takeUntil(this.unsubscribe$)
-    ).subscribe(); // Managing side effects
+    this.localStorage
+      .set('todos', updatedTodos)
+      .pipe(delay(this.delayTime), takeUntil(this.unsubscribe$))
+      .subscribe(); // Managing side effects
   }
 
   toggleFavorite(todo: Todo) {
-    const updatedTodos = this.todosSubject.getValue().map(t =>
-      t === todo ? { ...t, favorite: !t.favorite } : t
-    );
+    const updatedTodos = this.todosSubject
+      .getValue()
+      .map((t) => (t === todo ? { ...t, favorite: !t.favorite } : t));
     this.todosSubject.next(updatedTodos);
 
-    this.localStorage.set('todos', updatedTodos).pipe(
-      delay(this.delayTime),
-      takeUntil(this.unsubscribe$)
-    ).subscribe();
+    this.localStorage
+      .set('todos', updatedTodos)
+      .pipe(delay(this.delayTime), takeUntil(this.unsubscribe$))
+      .subscribe();
   }
 
   removeTodo(todo: Todo) {
-    const updatedTodos = this.todosSubject.getValue().filter(t => t !== todo);
+    const updatedTodos = this.todosSubject.getValue().filter((t) => t !== todo);
     this.todosSubject.next(updatedTodos);
 
-    this.localStorage.set('todos', updatedTodos).pipe(
-      delay(this.delayTime),
-      takeUntil(this.unsubscribe$)
-    ).subscribe();
+    this.localStorage
+      .set('todos', updatedTodos)
+      .pipe(delay(this.delayTime), takeUntil(this.unsubscribe$))
+      .subscribe();
   }
 
   ngOnDestroy() {

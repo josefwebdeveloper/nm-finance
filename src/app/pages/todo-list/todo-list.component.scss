@@ -63,7 +63,7 @@
     }
 
     .red-text {
-      color: red;
+      color: var(--active-link-color);
       font-weight: bold;
     }
 
@@ -82,13 +82,15 @@
     margin-bottom: 16px;
   }
 }
-.empty{
+
+.empty {
   min-height: 200px;
   display: flex;
   align-items: center;
   justify-content: center;
   margin-top: 100px;
 }
+
 @media screen and (max-width: 768px) {
   .todo-table {
     width: 100%;
