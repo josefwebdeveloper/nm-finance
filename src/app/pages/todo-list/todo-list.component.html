@@ -26,7 +26,7 @@
                   class="time-left"
                   [ngClass]="{ 'red-text': isTimeCritical(todo) }"
                 >
-                  Time Left: {{ timeLeftMap.get(todo) }}
+                  Left: {{ timeLeftMap.get(todo) }}
                 </span>
               }
               @if (!todayTodos.includes(todo)) {
@@ -83,7 +83,7 @@
                 class="time-left"
                 [ngClass]="{ 'red-text': isTimeCritical(todo) }"
               >
-                Time Left: {{ timeLeftMap.get(todo) }}
+                Left: {{ timeLeftMap.get(todo) }}
               </span>
               <div class="actions">
                 <button mat-icon-button (click)="toggleFavorite(todo)">
