@@ -7,12 +7,16 @@
         <mat-label>Title</mat-label>
         <input matInput formControlName="title"/>
         <div class="error-container">
-          <mat-error *ngIf="todoForm.get('title')?.hasError('required') && todoForm.get('title')?.touched">
-            Title is required
-          </mat-error>
-          <mat-error *ngIf="todoForm.get('title')?.hasError('maxLength')">
-            Max length-100 characters
-          </mat-error>
+          @if (todoForm.get('title')?.hasError('required') && todoForm.get('title')?.touched) {
+            <mat-error>
+              Title is required
+            </mat-error>
+          }
+          @if (todoForm.get('title')?.hasError('maxLength')) {
+            <mat-error>
+              Max length-100 characters
+            </mat-error>
+          }
         </div>
       </mat-form-field>
 
@@ -22,22 +26,26 @@
         <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
         <mat-datepicker #picker></mat-datepicker>
         <div class="error-container">
-          <mat-error *ngIf="todoForm.hasError('futureDate') && todoForm.get('expirationDate')?.touched">
-            Date/time cannot be in the past
-          </mat-error>
+          @if (todoForm.hasError('futureDate') && todoForm.get('expirationDate')?.touched) {
+            <mat-error>
+              Date/time cannot be in the past
+            </mat-error>
+          }
         </div>
       </mat-form-field>
 
       <mat-form-field appearance="fill" class="form-field">
         <mat-label>Expiration Time</mat-label>
         <input matInput [format]="24" [ngxTimepicker]="timepicker" formControlName="expirationTime"
-               placeholder="Expiration Time"/>
+          placeholder="Expiration Time"/>
         <ngx-material-timepicker #timepicker></ngx-material-timepicker>
         <div class="error-container">
-          <mat-error *ngIf="todoForm.hasError('futureDate') &&
-           (todoForm.get('expirationTime')?.touched || todoForm.get('expirationDate')?.touched)">
-            Date/time cannot be in the past
-          </mat-error>
+          @if (todoForm.hasError('futureDate') &&
+            (todoForm.get('expirationTime')?.touched || todoForm.get('expirationDate')?.touched)) {
+            <mat-error>
+              Date/time cannot be in the past
+            </mat-error>
+          }
         </div>
       </mat-form-field>
 

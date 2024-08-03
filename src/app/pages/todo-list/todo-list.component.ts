@@ -6,7 +6,7 @@ import { ActivatedRoute } from '@angular/router';
 import { takeUntil } from "rxjs/operators";
 import { MatButton, MatIconButton } from "@angular/material/button";
 import { MatCard, MatCardTitle } from "@angular/material/card";
-import { DatePipe, NgClass, NgForOf, NgIf } from "@angular/common";
+import { DatePipe, NgClass } from "@angular/common";
 import { MatList, MatListItem } from "@angular/material/list";
 import { MatLine } from "@angular/material/core";
 import { MatIcon } from "@angular/material/icon";
@@ -30,7 +30,6 @@ import { TimerService } from "../../services/timer.service";
   imports: [
     MatButton,
     MatCard,
-    NgIf,
     MatCardTitle,
     MatList,
     MatListItem,
@@ -38,7 +37,6 @@ import { TimerService } from "../../services/timer.service";
     MatIconButton,
     MatIcon,
     DatePipe,
-    NgForOf,
     MatDivider,
     MatTable,
     MatSort,
@@ -53,7 +51,7 @@ import { TimerService } from "../../services/timer.service";
     MatRowDef,
     MatHeaderRowDef,
     NgClass
-  ],
+],
   templateUrl: './todo-list.component.html',
   styleUrls: ['./todo-list.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush,

@@ -5,7 +5,7 @@ import {Subject, switchMap} from "rxjs";
 import {map} from "rxjs/operators";
 import {MatError, MatFormField, MatFormFieldModule} from "@angular/material/form-field";
 import {MatInput, MatInputModule} from "@angular/material/input";
-import {NgIf} from "@angular/common";
+
 import {
   MatDatepicker,
   MatDatepickerInput,
@@ -28,7 +28,6 @@ import {MatCard} from "@angular/material/card";
     MatFormField,
     MatDatepickerModule,
     MatInput,
-    NgIf,
     MatDatepickerInput,
     MatDatepickerToggle,
     MatDatepicker,
@@ -39,7 +38,7 @@ import {MatCard} from "@angular/material/card";
     MatNativeDateModule,
     MatButton,
     MatCard
-  ],
+],
   templateUrl: './add-todo.component.html',
   styleUrl: './add-todo.component.scss',
   changeDetection: ChangeDetectionStrategy.OnPush,

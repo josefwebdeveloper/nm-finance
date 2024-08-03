@@ -1,6 +1,6 @@
 import {ChangeDetectionStrategy, Component, inject} from '@angular/core';
 import { BreakpointObserver, Breakpoints } from '@angular/cdk/layout';
-import {AsyncPipe, NgIf} from '@angular/common';
+import { AsyncPipe } from '@angular/common';
 import { MatToolbarModule } from '@angular/material/toolbar';
 import { MatButtonModule } from '@angular/material/button';
 import { MatSidenavModule } from '@angular/material/sidenav';
@@ -24,9 +24,8 @@ import {RouterLink, RouterLinkActive, RouterOutlet} from "@angular/router";
     AsyncPipe,
     RouterOutlet,
     RouterLink,
-    RouterLinkActive,
-    NgIf,
-  ],
+    RouterLinkActive
+],
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class MainNavComponent {
