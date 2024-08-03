@@ -35,3 +35,9 @@ mat-card {
   white-space: nowrap;
   text-overflow: ellipsis;
 }
+
+@media screen and (max-width: 768px) {
+  .add-todo-container {
+    width: 80%;
+  }
+}
