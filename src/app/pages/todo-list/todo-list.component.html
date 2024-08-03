@@ -45,7 +45,7 @@
     </table>
   </mat-card>
 
-  <mat-card *ngIf="showFavorites && favoriteTodos.length === 0">
+  <mat-card class="empty" *ngIf="showFavorites && favoriteTodos.length === 0">
     <mat-card-title>No favorite tasks found.</mat-card-title>
   </mat-card>
 
@@ -132,7 +132,7 @@
   </mat-card>
 
   <!-- No Tasks Message -->
-  <mat-card *ngIf="!showFavorites && todayTodos.length === 0 && otherTodos.length === 0">
+  <mat-card  class="empty" *ngIf="!showFavorites && todayTodos.length === 0 && otherTodos.length === 0">
     <mat-card-title>No tasks available.</mat-card-title>
   </mat-card>
 </div>
