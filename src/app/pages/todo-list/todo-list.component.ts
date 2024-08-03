@@ -1,4 +1,4 @@
-import {Component, OnDestroy, OnInit} from '@angular/core';
+import {ChangeDetectionStrategy, ChangeDetectorRef, Component, OnDestroy, OnInit} from '@angular/core';
 import {Todo} from "../../models/todo";
 import {debounceTime, Subject} from "rxjs";
 import {TodoService} from "../../services/todo.service";
@@ -54,7 +54,8 @@ import {TimerService} from "../../services/timer.service";
     NgClass
   ],
   templateUrl: './todo-list.component.html',
-  styleUrl: './todo-list.component.scss'
+  styleUrl: './todo-list.component.scss',
+  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class TodoListComponent implements OnInit, OnDestroy{
   todos: Todo[] = [];
@@ -65,7 +66,10 @@ export class TodoListComponent implements OnInit, OnDestroy{
   private destroy$ = new Subject<void>();
   private favoriteClicks$ = new Subject<Todo>();
 
-  constructor(private todoService: TodoService, private timerService: TimerService) {}
+  constructor(
+    private todoService: TodoService,
+    private cdr: ChangeDetectorRef,
+    private timerService: TimerService) {}
 
   ngOnInit(): void {
     this.todoService.getTodos().pipe(
@@ -89,6 +93,7 @@ export class TodoListComponent implements OnInit, OnDestroy{
       updatedTimes.forEach(({ todo, timeLeft }) => {
         this.timeLeftMap.set(todo, timeLeft);
       });
+      this.cdr.markForCheck();
     });
   }
 

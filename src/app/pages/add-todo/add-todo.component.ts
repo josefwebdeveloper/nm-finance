@@ -1,4 +1,4 @@
-import {Component} from '@angular/core';
+import {ChangeDetectionStrategy, Component} from '@angular/core';
 import {FormBuilder, FormGroup, ReactiveFormsModule, Validators} from "@angular/forms";
 import {Router} from "@angular/router";
 import {Subject, switchMap} from "rxjs";
@@ -39,7 +39,8 @@ import {futureDateValidator} from "../../validators/date-time.validator";
     MatButton
   ],
   templateUrl: './add-todo.component.html',
-  styleUrl: './add-todo.component.scss'
+  styleUrl: './add-todo.component.scss',
+  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class AddTodoComponent {
   todoForm: FormGroup;

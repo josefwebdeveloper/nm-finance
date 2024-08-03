@@ -4,17 +4,21 @@
 
 .wrapper {
   display: flex;
-  width: 70%;
-  margin: auto;
-  align-items: center;
+  width: 1024px;
 }
 
 .sidenav {
   width: 200px;
 }
 
-mat-toolbar {
+mat-toolbar.mat-primary {
   background-color: var(--toolbar-bg-color);
+  display: flex;
+  justify-content: center;
+  position: fixed !important;
+  top: 0;
+  z-index: 1;
+
 }
 
 nav a {
@@ -24,21 +28,19 @@ nav a {
   font-weight: bold;
 }
 
-.active-link {
-  color: var(--active-link-color) !important;
+mat-nav-list {
+  padding: 0;
 }
 
-mat-toolbar {
-  display: flex;
-  justify-content: space-between;
+mat-list-item {
+  font-weight: bold;
+  text-transform: uppercase;
 }
 
-.sidenav .mat-toolbar {
-  background: inherit;
+@media screen and (max-width: 768px) {
+  .mat-toolbar {
+    background-color: var(--toolbar-bg-color);
+  }
 }
 
-.mat-toolbar.mat-primary {
-  position: sticky;
-  top: 0;
-  z-index: 1;
-}
+

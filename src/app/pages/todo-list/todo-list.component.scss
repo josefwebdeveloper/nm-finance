@@ -1,25 +1,51 @@
 .todo-list-container {
-  padding: 20px;
-  width: 70%;
-  margin: auto;
+  padding: 24px 0 0 0;
+  flex-direction: column;
 
   .todo-card {
     margin-bottom: 20px;
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    border-radius: 8px;
   }
 
   .todo-table {
     width: 100%;
+
     th {
       font-weight: bold;
       text-align: left;
     }
+
     td {
-      padding: 8px 16px;
+      padding: 16px 8px;
     }
 
-    mat-checkbox {
-      margin-left: 8px;
+    .todo-title {
+      font-size: 1.2em;
+      font-weight: bold;
+      margin-bottom: 8px;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
+
+    .todo-details {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: space-between;
+      align-items: center;
+
+      .created-at,
+      .expiration,
+      .time-left {
+        flex: 1 1 50%;
+        margin: 5px 0;
+      }
+
+      .actions {
+        flex: 1 1 100%;
+        text-align: right;
+      }
     }
 
     .red-text {
@@ -42,3 +68,36 @@
     margin-bottom: 16px;
   }
 }
+
+@media screen and (max-width: 768px) {
+  .todo-list-container {
+    padding: 0;
+    width: 100%;
+    margin: initial;
+  }
+  .todo-details {
+    flex-direction: column;
+    align-items: flex-start;
+
+    .actions {
+      text-align: left;
+    }
+  }
+
+  .todo-table {
+    td {
+      display: block;
+      padding: 10px 0;
+      border-bottom: 1px solid #eee;
+
+      .todo-title {
+        width: calc(100vw - 10px);
+      }
+    }
+
+    th {
+      display: none;
+    }
+  }
+}
+

@@ -1,6 +1,6 @@
-import { Component, inject } from '@angular/core';
+import {ChangeDetectionStrategy, Component, inject} from '@angular/core';
 import { BreakpointObserver, Breakpoints } from '@angular/cdk/layout';
-import { AsyncPipe } from '@angular/common';
+import {AsyncPipe, NgIf} from '@angular/common';
 import { MatToolbarModule } from '@angular/material/toolbar';
 import { MatButtonModule } from '@angular/material/button';
 import { MatSidenavModule } from '@angular/material/sidenav';
@@ -25,7 +25,9 @@ import {RouterLink, RouterLinkActive, RouterOutlet} from "@angular/router";
     RouterOutlet,
     RouterLink,
     RouterLinkActive,
-  ]
+    NgIf,
+  ],
+  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class MainNavComponent {
   private breakpointObserver = inject(BreakpointObserver);

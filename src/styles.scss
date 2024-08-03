@@ -3,18 +3,36 @@
   --toolbar-bg-color: grey;
   --active-link-color: red;
 }
+
 html, body {
   height: 100%;
   box-sizing: border-box;
 }
+
 body {
   margin: 0;
-  font-family: Roboto, "Helvetica Neue", sans-serif; }
+  font-family: Roboto, "Helvetica Neue", sans-serif;
+}
+
+
+html::before::-webkit-scrollbar {
+  display: none;
+}
+
+
 .spacer {
   flex: 1 1 auto;
 }
-.container{
+
+.container {
   display: flex;
-  min-height: calc(100vh - 64px);
+  width: 1024px;
+  margin: 64px auto auto auto;
 }
 
+.active-link {
+  color: var(--active-link-color) !important;
+    .mdc-list-item__primary-text {
+      color: var(--active-link-color) !important;
+    }
+}
